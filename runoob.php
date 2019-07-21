@@ -15,8 +15,8 @@ $pythonPath = 'C:\ProgramData\Anaconda3\python.exe';
 		<p><input type="submit" /></p>
 	</form>
 	
-	<?php 
-	exec('C:\ProgramData\Anaconda3\python.exe main.py', $output);
+	<?php
+	exec('C:\ProgramData\Anaconda3\python.exe main.py 2>&1', $output, $return_val);
 	foreach ($output as $k=>$v) {
 	    echo $v."<br />";
 	}
