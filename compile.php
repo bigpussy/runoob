@@ -5,7 +5,7 @@ $txt = $_POST['code'];
 fwrite($myfile, $txt);
 fclose($myfile);
 
-$pythonPath = 'python';
+$pythonPath = '/usr/local/bin/python3';
 
 
 exec($pythonPath.' 2>&1', $output, $return_val);
