@@ -39,7 +39,7 @@
                 <div class="row">
                   <div class="col-md-7">
                     <textarea class="form-control"  id="code" name="code" rows="18"># -*- coding: UTF-8 -*-
-print(Hello World!);</textarea>
+print("Hello World!");</textarea>
                   </div>
                   <div class="col-md-5">
                     <textarea placeholder="运行结果……" class="form-control" id="compiler-textarea-result" rows="18">Hello World!</textarea>
