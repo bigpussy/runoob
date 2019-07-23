@@ -5,10 +5,10 @@ $txt = $_POST['code'];
 fwrite($myfile, $txt);
 fclose($myfile);
 
-$pythonPath = '/usr/local/bin/python3';
+$pythonPath = 'C:/ProgramData/Anaconda3/python.exe';
 
 
-exec($pythonPath.' 2>&1', $output, $return_val);
+exec($pythonPath.' main.py 2>&1', $output, $return_val);
 
 $result = '';
 
