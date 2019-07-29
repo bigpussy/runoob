@@ -3,15 +3,19 @@
 /**
  * 数据操作类
  */
+
+
 class Request
 {
     //允许的请求方式
     private static $method_type = array('get', 'post', 'put', 'patch', 'delete');
     //测试数据
-    private static $test_class = array(
+    public static $test_class = array(
         1 => array('name' => '托福班', 'count' => 18),
         2 => array('name' => '雅思班', 'count' => 20),
     );
+    
+
 
     public static function getRequest()
     {
@@ -28,12 +32,24 @@ class Request
     //GET 获取信息
     private static function getData($request_data)
     {
+        include ('settings.php');
+        $settings = new Settings_PHP;
+        $settings->load('config.php');
+        $compilers = $settings->get('compiler');
+        
+        
         $class_id = (int)$request_data['class'];
         //GET /class/ID：获取某个指定班的信息
         if ($class_id > 0) {
-            return self::$test_class[$class_id];
+            
+            foreach($compilers as $value){
+                if($value['code'] == $class_id){
+                    return $value;
+                }
+            }
+            return null;
         } else {//GET /class：列出所有班级
-            return self::$test_class;
+            return $compilers;
         }
     }
 

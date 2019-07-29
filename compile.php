@@ -2,13 +2,22 @@
 include ('settings.php'); 
 $settings = new Settings_PHP;
 $settings->load('config.php');
+$compilers = $settings->get('compiler');
+$thisCompiler;
+foreach($compilers as $value){
+    if($value["code"] == $_POST['language']){
+        $thisCompiler = $value;
+    }
+}
 
 $myfile = fopen("main.py", "w") or die("Unable to open file!");
 $txt = $_POST['code'];
 fwrite($myfile, $txt);
 fclose($myfile);
 
-$pythonPath = $settings->get('compiler.python3.location');
+
+
+$pythonPath = $thisCompiler["location"];
 
 
 exec($pythonPath.' main.py 2>&1', $output, $return_val);

@@ -2,5 +2,5 @@ Options +FollowSymlinks
 RewriteEngine on
 
 # 重写规则
-RewriteRule ^class$   indextest.php?class=all [nc,qsa]
-RewriteRule ^class/(\d+)$   indextest.php?class=$1 [nc,qsa]
+RewriteRule ^compiler$   indextest.php?class=all [nc,qsa]
+RewriteRule ^compiler/(\d+)$   index.php?compiler=$1 [nc,qsa]

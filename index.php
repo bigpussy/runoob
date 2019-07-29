@@ -3,6 +3,12 @@
     $settings = new Settings_PHP;
     $settings->load('config.php');
     $compilers = $settings->get('compiler');
+    $thisCompiler;
+    foreach($compilers as $value){
+        if($value["code"] == $_GET['compiler']){
+            $thisCompiler = $value;
+        }
+    }
 ?>
 
 <!doctype html>
@@ -10,7 +16,7 @@
 <head>
 <meta charset="utf-8" />
 <link rel="stylesheet" id="wpProQuiz_front_style-css" href="static/wpProQuiz_front.min.css" type="text/css" media="all">
-<link rel="stylesheet" href="static/codemirror.min.css">
+<link rel="stylesheet" href="https://cdn.staticfile.org/codemirror/5.48.0/codemirror.min.css">
 <link href="static/normalize.min.css" rel="stylesheet">
 <script src="https://cdn.staticfile.org/codemirror/5.48.0/addon/mode/simple.min.js"></script>
 <link rel="stylesheet" href="//cdn.staticfile.org/codemirror/5.48.0/codemirror.min.css">
@@ -18,10 +24,14 @@
 <link href="//cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 
 <link href="static/style.css" rel="stylesheet">
-<script src="static/jquery.min.js"></script>
-<script src="static/codemirror.min.js"></script>
-<script src="static/python.js"></script>
-<title>哈哈</title>
+<script src="//cdn.staticfile.org/jquery/2.0.3/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/codemirror/5.48.0/codemirror.min.js"></script>
+<script src="https://cdn.staticfile.org/codemirror/5.48.0/mode/python/python.js"></script>
+<title>
+<?php 
+    echo $thisCompiler['name'];
+?>
+</title>
 </head>
 
 <body>
@@ -35,9 +45,9 @@
 				 <button type="button" class="btn btn-success" id="submitBTN" disabled="disabled"><i class="fa fa-send-o"></i> 点击运行</button>
 		 				<select class="form-control" id="sel1">
 		 					<?php 
-		 					    $arr = $settings->get('compiler');
-    		 					foreach($arr as $value){
-    		 					    echo "<option value='" . $settings->get('site') . $value['code'] . "'>123</option>";
+		 					    foreach($compilers as $value){
+		 					        $isSelect = ($value["code"] == $_GET['compiler']? " selected=true ":"");
+		 					        echo "<option value='" . $settings->get('site') . $value['code'] . "' " . $isSelect . ">" . $value['name'] . "</option>";
     		 					}
 		 					?>
 		 				</select>
@@ -52,8 +62,9 @@
               <div class="form-group">
                 <div class="row">
                   <div class="col-md-7">
-                    <textarea class="form-control"  id="code" name="code" rows="18"># -*- coding: UTF-8 -*-
-print("Hello World!");</textarea>
+                    <textarea class="form-control"  id="code" name="code" rows="18"><?php 
+                    	   echo $thisCompiler["example"];
+                    	?></textarea>
                   </div>
                   <div class="col-md-5">
                     <textarea placeholder="运行结果……" class="form-control" id="compiler-textarea-result" rows="18">Hello World!</textarea>
@@ -85,6 +96,19 @@ print("Hello World!");</textarea>
 	-->
 </div>
 <script>
+
+$(function(){
+  // bind change event to select
+  $('#sel1').on('change', function () {
+      var url = $(this).val(); // get selected value
+      if (url) { // require a URL
+          window.location = url; // redirect
+      }
+      return false;
+  });
+});
+
+
 var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
 	lineNumbers: true,
 	matchBrackets: true,
@@ -107,7 +131,7 @@ btn.click(function() {
 		stdin = $("#stdin").val();
 	}
 	runcode = 0;
-	$.post("compile.php",{code:code,stdin:stdin,language:runcode, fileext:"py"},function(data){
+	$.post("../compile.php",{code:code,stdin:stdin,language:<?php echo $thisCompiler["code"];?>, fileext:"<?php echo $thisCompiler["fileext"];?>"},function(data){
 		if(runcode==18) {
 			data.output = data.output.replace("Free Pascal Compiler version 2.6.2-8 [2014/01/22] for x86_64\nCopyright (c) 1993-2012 by Florian Klaempfl and others\n", "");
 			data.errors = data.errors.replace("/usr/bin/ld.bfd: warning: /usercode/link.res contains output sections; did you forget -T?\n", "");
@@ -115,7 +139,6 @@ btn.click(function() {
 		if(runcode==8) {
 			data.errors = data.errors.replace("/usercode/script.sh: line 69: bc: command not found", ""); 
 		}
-		console.log(data);
 		$("#compiler-textarea-result").val(data.output + data.errors);
 	});
 	setTimeout(function(){
@@ -132,16 +155,7 @@ $("#clearCode").click(function() {
 	}
 });
 
-$(function(){
-  // bind change event to select
-  $('#sel1').on('change', function () {
-      var url = $(this).val(); // get selected value
-      if (url) { // require a URL
-          window.location = url; // redirect
-      }
-      return false;
-  });
-});
+
 
 </script>
 
