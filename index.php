@@ -1,3 +1,10 @@
+<?php  
+    include ('settings.php');
+    $settings = new Settings_PHP;
+    $settings->load('config.php');
+    $compilers = $settings->get('compiler');
+?>
+
 <!doctype html>
 <html>
 <head>
@@ -16,6 +23,7 @@
 <script src="static/python.js"></script>
 <title>哈哈</title>
 </head>
+
 <body>
 
 	<div class="row">
@@ -25,9 +33,15 @@
 					<div id="compiler" class="panel-heading">
 			<form class="form-inline" role="form">
 				 <button type="button" class="btn btn-success" id="submitBTN" disabled="disabled"><i class="fa fa-send-o"></i> 点击运行</button>
-				 				<select class="form-control" id="sel1">
-				    <option  value="https://c.runoob.com/compile/5577">TypeScript 在线工具</option><option  value="https://c.runoob.com/compile/2960">Kotlin 在线工具</option><option  value="https://c.runoob.com/compile/73">Pascal 在线工具</option><option  value="https://c.runoob.com/compile/66">Lua 在线工具</option><option  value="https://c.runoob.com/compile/22">Node.js 在线工具</option><option  value="https://c.runoob.com/compile/21">Go 在线工具</option><option  value="https://c.runoob.com/compile/20">Swift 在线工具</option><option  value="https://c.runoob.com/compile/19">RUST 在线工具</option><option  value="https://c.runoob.com/compile/18">Bash 在线工具</option><option  value="https://c.runoob.com/compile/17">Perl 在线工具</option><option  value="https://c.runoob.com/compile/16">Erlang 在线工具</option><option  value="https://c.runoob.com/compile/15">Scala 在线工具</option><option  value="https://c.runoob.com/compile/14">C# 在线工具</option><option  value="https://c.runoob.com/compile/13">Ruby 在线工具</option><option  value="https://c.runoob.com/compile/12">C++ 在线工具</option><option  value="https://c.runoob.com/compile/11">C 在线工具</option><option  value="https://c.runoob.com/compile/10">Java 在线工具</option><option  value="https://c.runoob.com/compile/9">Python3 在线工具</option><option selected="selected" value="https://c.runoob.com/compile/6">Python 在线工具</option><option  value="https://c.runoob.com/compile/1">PHP 在线工具</option>			  	</select>
-			  	
+		 				<select class="form-control" id="sel1">
+		 					<?php 
+		 					    $arr = $settings->get('compiler');
+    		 					foreach($arr as $value){
+    		 					    echo "<option value='" . $settings->get('site') . $value['code'] . "'>123</option>";
+    		 					}
+		 					?>
+		 				</select>
+				    
 				 <label class="pull-right"><strong style="font-size: 16px"><a href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=ssbDyoOAgfLU3crf09venNHd3w" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i> 邮件反馈</a></strong></label>
 				
 				 <button type="button" class="btn btn-default" id="clearCode" ><i class="fa fa-eraser" aria-hidden="true"></i> 清空</button>
@@ -184,3 +198,4 @@ $(function() {
     
 </body>
 </html>
+

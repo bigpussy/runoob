@@ -1,11 +1,14 @@
 <?php
+include ('settings.php'); 
+$settings = new Settings_PHP;
+$settings->load('config.php');
 
 $myfile = fopen("main.py", "w") or die("Unable to open file!");
 $txt = $_POST['code'];
 fwrite($myfile, $txt);
 fclose($myfile);
 
-$pythonPath = '/usr/local/bin/python3';
+$pythonPath = $settings->get('compiler.python3.location');
 
 
 exec($pythonPath.' main.py 2>&1', $output, $return_val);
@@ -13,7 +16,7 @@ exec($pythonPath.' main.py 2>&1', $output, $return_val);
 $result = '';
 
 foreach ($output as $k=>$v) {
-    $result = $result.$v;
+    $result = $result.$v."\n";
 }
 
 
