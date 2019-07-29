@@ -10,7 +10,7 @@ foreach($compilers as $value){
     }
 }
 
-$myfile = fopen("main.".$value["fileext"], "w") or die("Unable to open file!");
+$myfile = fopen("main.".$thisCompiler["fileext"], "w") or die("Unable to open file!");
 $txt = $_POST['code'];
 fwrite($myfile, $txt);
 fclose($myfile);
@@ -20,7 +20,7 @@ fclose($myfile);
 $pythonPath = $thisCompiler["location"];
 
 
-exec($pythonPath.' main.'.$value["fileext"].' 2>&1', $output, $return_val);
+exec($pythonPath.' main.'.$thisCompiler["fileext"].' 2>&1', $output, $return_val);
 
 $result = '';
 

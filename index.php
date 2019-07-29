@@ -47,7 +47,7 @@
 		 					<?php 
 		 					    foreach($compilers as $value){
 		 					        $isSelect = ($value["code"] == $_GET['compiler']? " selected=true ":"");
-		 					        echo "<option value='" . $settings->get('site') . $value['code'] . "' " . $isSelect . ">" . $value['name'] . "</option>";
+		 					        echo "<option value='" . $settings->get('site') . $value['code'] . "' " . $isSelect . ">" . $value['name'] . " 在线工具</option>";
     		 					}
 		 					?>
 		 				</select>
