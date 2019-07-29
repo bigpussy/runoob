@@ -1,3 +1,2 @@
 # -*- coding: UTF-8 -*-
-println("Hello you!"); 
-print("heihei")
+print "Hello World!" ;
